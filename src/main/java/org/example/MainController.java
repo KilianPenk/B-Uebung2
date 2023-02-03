@@ -5,10 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
+import java.sql.*;
+
 public class MainController {
     @FXML
     private TableView<Person> tableView;
@@ -51,7 +50,7 @@ public class MainController {
         }
     }
     @FXML
-    public void insertData() {
+    public void insertData() throws SQLException {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             connection = DriverManager.getConnection("jdbc:derby://localhost:1527/B_Uebung", "B_Uebung", "B_Uebung");
@@ -63,6 +62,8 @@ public class MainController {
             statement.close();
             connection.close();
             refreshData();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
